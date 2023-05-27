@@ -11,7 +11,7 @@ use starknet_api::state::StorageKey;
 
 use crate::constants::{
     ERC20_CONTRACT, ERC20_CONTRACT_CLASS_HASH, FEE_TOKEN_ADDRESS, UDC_ADDRESS, UDC_CLASS_HASH,
-    UDC_CONTRACT,
+    UDC_CONTRACT, KKRT_CONTRACT_CLASS_HASH, KKRT_CONTRACT_ADDRESS, KKRT_MAIN
 };
 
 #[derive(Clone, Debug)]
@@ -34,6 +34,7 @@ impl Default for DictStateReader {
         };
         deploy_fee_contract(&mut state);
         deploy_universal_deployer_contract(&mut state);
+        deploy_krt_contract(&mut state);
         state
     }
 }
@@ -95,4 +96,15 @@ fn deploy_universal_deployer_contract(state: &mut DictStateReader) {
     state
         .address_to_class_hash
         .insert(ContractAddress(patricia_key!(*UDC_ADDRESS)), universal_deployer_class_hash);
+}
+
+
+// KKRT
+fn deploy_krt_contract(state: &mut DictStateReader) {
+    // get class hash
+    let kkrt_class_hash = ClassHash(*KKRT_CONTRACT_CLASS_HASH);
+    state.class_hash_to_class.insert(kkrt_class_hash, (*KKRT_MAIN).clone());
+    state
+        .address_to_class_hash
+        .insert(ContractAddress(patricia_key!(*KKRT_CONTRACT_ADDRESS)), kkrt_class_hash);
 }

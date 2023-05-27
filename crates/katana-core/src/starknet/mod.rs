@@ -31,7 +31,7 @@ use crate::accounts::PredeployedAccounts;
 use crate::block_context::block_context_from_config;
 use crate::constants::{
     DEFAULT_PREFUNDED_ACCOUNT_BALANCE, ERC20_CONTRACT_CLASS_HASH, FEE_TOKEN_ADDRESS, UDC_ADDRESS,
-    UDC_CLASS_HASH,
+    UDC_CLASS_HASH, KKRT_CONTRACT_CLASS_HASH, KKRT_CONTRACT_ADDRESS, KKRT_MAIN
 };
 use crate::state::DictStateReader;
 use crate::util::{
@@ -282,7 +282,10 @@ impl StarknetWrapper {
 
         let mut transactions = vec![];
         let deploy_data =
-            vec![(*UDC_CLASS_HASH, *UDC_ADDRESS), (*ERC20_CONTRACT_CLASS_HASH, *FEE_TOKEN_ADDRESS)];
+            vec![(*UDC_CLASS_HASH, *UDC_ADDRESS),
+                 (*ERC20_CONTRACT_CLASS_HASH, *FEE_TOKEN_ADDRESS),
+                 (*KKRT_CONTRACT_CLASS_HASH, *KKRT_CONTRACT_ADDRESS)
+            ];
 
         deploy_data.into_iter().for_each(|(class_hash, address)| {
             let declare_tx = starknet_api::transaction::Transaction::Declare(
