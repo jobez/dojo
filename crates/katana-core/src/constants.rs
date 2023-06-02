@@ -23,7 +23,15 @@ lazy_static! {
     pub static ref KKRT_CONTRACT_ADDRESS: StarkFelt = stark_felt!("0x7a22b0fd4892550a9cc470a70fdda2621ccc7eb30e0769184fe4ab0b4462550");
     pub static ref KKRT_CONTRACT_CLASS_HASH: StarkFelt = stark_felt!("0x48f610ed2be617844c0483633e47d09a1cb8c482989f83be589904f5f67b308");
     pub static ref KKRT_MAIN: ContractClass = get_contract_class(include_str!("../contracts/kkrt/kakarot.json"));
+    
 
+    // TEST_CONTRACT
+    pub static ref TEST_CONTRACT_MAIN: ContractClass = get_contract_class(include_str!("../contracts/compiled/test_contract.json"));
+    pub static ref TEST_CONTRACT_CLASS_HASH: StarkFelt = stark_felt!("0x1c15a657c4101cedcb0bb97581a0df531230d5491a813136995ed3e63a3f9ce");
+    
+    
+
+    
     // Predefined contract classes
 
     pub static ref ERC20_CONTRACT: ContractClass = get_contract_class(include_str!("../contracts/compiled/erc20.json"));
