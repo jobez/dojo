@@ -369,11 +369,13 @@ impl StarknetWrapper {
 }
 
 fn apply_new_state(old_state: &mut DictStateReader, new_state: &mut CachedState<DictStateReader>) {
-    let state_diff = new_state.to_state_diff();
 
+    let state_diff = new_state.to_state_diff();
+    println!("state diff - {:?}", state_diff);
     // update contract storages
     state_diff.storage_updates.into_iter().for_each(|(contract_address, storages)| {
         storages.into_iter().for_each(|(key, value)| {
+            println!("Updating storage: Contract Address - {:?}, Key - {:?}, Value - {:?}", contract_address, key, value);            
             old_state.storage_view.insert((contract_address, key), value);
         })
     });
@@ -383,17 +385,20 @@ fn apply_new_state(old_state: &mut DictStateReader, new_state: &mut CachedState<
     for (class_hash, compiled_class_hash) in &state_diff.class_hash_to_compiled_class_hash {
         let contract_class =
             new_state.get_compiled_contract_class(class_hash).expect("contract class should exist");
+        println!("Updating declared contracts: Class Hash - {:?}, Compiled Class Hash - {:?}", class_hash, compiled_class_hash);
         old_state.class_hash_to_compiled_class_hash.insert(*class_hash, *compiled_class_hash);
         old_state.class_hash_to_class.insert(*class_hash, contract_class);
     }
 
     // update deployed contracts
     state_diff.address_to_class_hash.into_iter().for_each(|(contract_address, class_hash)| {
+        println!("Updating deployed contracts: Contract Address - {:?}, Class Hash - {:?}", contract_address, class_hash);        
         old_state.address_to_class_hash.insert(contract_address, class_hash);
     });
 
     // update accounts nonce
     state_diff.address_to_nonce.into_iter().for_each(|(contract_address, nonce)| {
+        println!("Updating accounts nonce: Contract Address - {:?}, Nonce - {:?}", contract_address, nonce);        
         old_state.address_to_nonce.insert(contract_address, nonce);
     });
 }
