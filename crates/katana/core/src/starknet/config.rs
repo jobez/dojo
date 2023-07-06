@@ -29,8 +29,8 @@ impl StarknetConfig {
             fee_token_address: ContractAddress(patricia_key!(*FEE_TOKEN_ADDRESS)),
             vm_resource_fee_cost: get_default_vm_resource_fee_cost(),
             gas_price: self.env.gas_price,
-            validate_max_n_steps: 1_000_000,
-            invoke_tx_max_n_steps: 1_000_000,
+            validate_max_n_steps: self.env.validate_max_steps,
+            invoke_tx_max_n_steps: self.env.invoke_max_steps,
         }
     }
 
@@ -56,10 +56,17 @@ impl Default for StarknetConfig {
 pub struct Environment {
     pub chain_id: String,
     pub gas_price: u128,
+    pub invoke_max_steps: u32,
+    pub validate_max_steps: u32,
 }
 
 impl Default for Environment {
     fn default() -> Self {
-        Self { chain_id: "KATANA".to_string(), gas_price: DEFAULT_GAS_PRICE }
+        Self {
+            chain_id: "KATANA".to_string(),
+            gas_price: DEFAULT_GAS_PRICE,
+            invoke_max_steps: 1_000_000,
+            validate_max_steps: 1_000_000,
+        }
     }
 }
