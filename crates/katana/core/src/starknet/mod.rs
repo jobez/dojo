@@ -269,7 +269,7 @@ impl StarknetWrapper {
             &mut EntryPointExecutionContext::new(
                 self.block_context.clone(),
                 AccountTransactionContext::default(),
-                1000000000,
+                self.block_context.invoke_tx_max_n_steps,
             ),
         );
 
