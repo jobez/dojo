@@ -8,11 +8,13 @@ use scarb::core::Config;
 use scarb::ops;
 use scarb::ui::Verbosity;
 
-#[cfg(feature = "skip-build")]
-fn main() {}
-
-#[cfg(not(feature = "skip-build"))]
 fn main() {
+
+     #[cfg(feature = "skip-build")]
+    {
+        return;
+    }
+    
     let mut compilers = CompilerRepository::empty();
     compilers.add(Box::new(DojoCompiler)).unwrap();
 
