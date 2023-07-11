@@ -8,6 +8,9 @@ use scarb::core::Config;
 use scarb::ops;
 use scarb::ui::Verbosity;
 
+#[cfg(feature = "skip-build")]
+fn main() {}
+
 #[cfg(not(feature = "skip-build"))]
 fn main() {
     let mut compilers = CompilerRepository::empty();
